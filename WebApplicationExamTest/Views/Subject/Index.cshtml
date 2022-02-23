@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebApplicationExamTest.Models.Subject>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+          @*  <th>
+                @Html.DisplayNameFor(model => model.Mark)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.Mark)
+            </td>*@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>|
+                 <a style="color: #337ab7" onclick="Redirect(@item.Id)">Add exam</a> |
+                     <a style="color: #337ab7" onclick="Redirect1(@item.Id)">See exam</a>
+            @*       <a  asp-route-id="@item.Id">Add exam</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+
+
+      function Redirect(id) {
+            window.location.href = '/Exam/Create?SetId=' + id;
+
+        }
+
+               function Redirect1(id) {
+            window.location.href = '/Exam/ViewExam?SetId=' + id;
+        }
+</script>
