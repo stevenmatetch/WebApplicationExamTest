@@ -25,6 +25,46 @@ namespace WebApplicationExamTest.Controllers
             return View(await _context.Class.ToListAsync());
         }
 
+        public async Task<IActionResult> Index1(int? id)
+        {
+            return View(await _context.Class.ToListAsync());
+        }
+
+        public async Task<IActionResult> ViewStudents(int SetId)
+        {
+            List<studen> studens = new List<studen>();
+            List<ApplicationUser> applicationUsers = new List<ApplicationUser>();
+            var Students = await _context.StudentClass.Where(student => student.ClassId == SetId).ToListAsync();
+      
+            foreach (var student in Students)
+            {
+                var stds = await _context.Users.Where(s => s.Id == student.StudentId).ToListAsync();
+                
+                foreach(var user in stds)
+                {
+                    applicationUsers.Add(user);
+                }
+            }
+
+       
+            foreach (var student in applicationUsers)
+            {
+                studen studen = new studen();
+                studen.Id = student.Id;
+                studen.Name = student.FirstName;
+                studens.Add(studen);
+            }
+            return View(studens);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Title")] Class @class, string Data)
+        {
+            return View();
+        }
+
         // GET: Class/Details/5
         public async Task<IActionResult> Details(int? id)
         {

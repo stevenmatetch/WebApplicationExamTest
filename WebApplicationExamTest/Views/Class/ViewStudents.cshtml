@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebApplicationExamTest.Models.studen>
+
+@{
+    ViewData["Title"] = "ViewStudents";
+}
+
+
+
+<h1>ViewStudents</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+              <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+           <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+               
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+              
+               <a style="color: #337ab7" onclick="Redirect1('@item.Id')">View</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+    @section scripts {
+
+
+<script>
+
+    
+      function Redirect1(id) {
+     
+            window.location.href = '/Subject/Index1?SetId=' + id;
+      }
+
+   
+   
+
+</script>
+
+}
+

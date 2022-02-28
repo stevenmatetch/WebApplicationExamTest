@@ -24,6 +24,21 @@ namespace WebApplicationExamTest.Controllers
         {
             return View(await _context.Subject.ToListAsync());
         }
+        public async Task<IActionResult> Index1(string SetId)
+        {
+            //Session["cSessionStrP"] = SetId;
+            TempData["StudenId"] = SetId;
+            return View(await _context.Subject.ToListAsync());
+            //heu
+        }
+
+        public async Task<IActionResult> ViewAnswer(int? SetSubjectId)
+        {
+            //string cSessionStrP = Session["cSessionStrP"] as string;
+            var studentId = TempData["StudenId"].ToString();
+            var x = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).ToListAsync();
+            return View(x);
+        }
 
         // GET: Subject/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WebApplicationExamTest.Models.Answer>
+
+@{
+    ViewData["Title"] = "ViewAnswer";
+}
+
+<h1>ViewAnswer</h1>
+
+
+
+<div class="row">
+     <div class="col-md-9" style="max-width:800px">
+      @foreach (var item in Model) 
+{
+        @item.StudentAnswer
+  
+
+
+       
+          
+}
+
+  </div>
+
+
+  <div class="col-md-3">
+      <input  class="form-control" />
+
+       <input  class="form-control"style="height:800px;width:255px" />
+
+       <button class="btn btn-success"></button>
+  </div>
+
+</div>
+ 
+   
+   
+ 

@@ -13,7 +13,7 @@
         public float Mark { get; set; }
 
         public int SubjectId { get; set; }
-        public string StudentId { get; set; }
+        //public string StudentId { get; set; }
 
 
 

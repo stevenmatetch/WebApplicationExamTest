@@ -15,5 +15,8 @@
         public int SubjectId { get; set; }
         public string StudentId { get; set; }
 
+       
+
+
     }
 }

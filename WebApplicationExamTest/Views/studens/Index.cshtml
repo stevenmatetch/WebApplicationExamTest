@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplicationExamTest.Models.Class>
+﻿@model IEnumerable<WebApplicationExamTest.Models.studen>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
         </tr>
@@ -22,27 +22,14 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                   
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-              <a style="color: #337ab7" onclick="Redirect(@item.Id)">Students</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-
-
-<script>
-
-
-      function Redirect(id) {
-            window.location.href = '/Class/ViewStudents?SetId=' + id;
-      }
-
-     
-</script>

@@ -10,8 +10,8 @@ using WebApplicationExamTest.Data;
 namespace WebApplicationExamTest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220217195627_new1")]
-    partial class new1
+    [Migration("20220223211509_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -322,9 +322,6 @@ namespace WebApplicationExamTest.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Class");
@@ -358,6 +355,24 @@ namespace WebApplicationExamTest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exam");
+                });
+
+            modelBuilder.Entity("WebApplicationExamTest.Models.StudentClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StudentClass");
                 });
 
             modelBuilder.Entity("WebApplicationExamTest.Models.Subject", b =>

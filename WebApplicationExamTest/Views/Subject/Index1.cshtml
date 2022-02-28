@@ -1,10 +1,10 @@
-﻿@model IEnumerable<WebApplicationExamTest.Models.Class>
+﻿@model IEnumerable<WebApplicationExamTest.Models.Subject>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index1";
 }
 
-<h1>Index</h1>
+<h1>Index1</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -25,11 +25,11 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                   
+                <input type="hidden" asp-for="@item.Id" />
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-              <a style="color: #337ab7" onclick="Redirect(@item.Id)">Students</a>
+              <a style="color: #337ab7" onclick="Redirect1(@item.Id)">See exam</a>
             </td>
         </tr>
 }
@@ -37,12 +37,11 @@
 </table>
 
 
-<script>
+    <script>
 
-
-      function Redirect(id) {
-            window.location.href = '/Class/ViewStudents?SetId=' + id;
+            function Redirect1(id) {
+            window.location.href = '/subject/ViewAnswer?SetSubjectId=' + id;
       }
 
-     
-</script>
+
+    </script>

@@ -12,10 +12,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using WebApplicationExamTest.Data;
 using WebApplicationExamTest.Models;
+
 
 
 
@@ -30,7 +32,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _context;
-     
+
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -62,6 +64,10 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
+            [Display(Name = "Last Name")]
+            public string Class { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -80,9 +86,25 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            var classes = _context.Class.ToList();
+            SelectListItem newItem;
+            List<SelectListItem> classes = new List<SelectListItem>();
+            List<Class> myClasses = new List<Class>();
+            var DatabaseClasses = _context.Class;
+
+            foreach (Class item in DatabaseClasses)
+            {
+                myClasses.Add(item);
+            }
+
+            foreach (var item in myClasses)
+            {
+                newItem = new SelectListItem();
+                newItem.Text = item.Title;
+                newItem.Value = item.Id.ToString();
+                classes.Add(newItem);
+            }
+
             ViewData["Classes"] = classes;
-            //ViewBag.Classes = classes;
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -120,6 +142,12 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                   
+                    StudentClass studentclass = new StudentClass();
+                    studentclass.StudentId = user.Id;
+                    studentclass.ClassId = Convert.ToInt32(Input.Class);
+                    _context.StudentClass.Add(studentclass);
+                    await _context.SaveChangesAsync();
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
