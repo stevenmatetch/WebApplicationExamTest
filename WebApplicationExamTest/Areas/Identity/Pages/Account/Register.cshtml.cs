@@ -46,7 +46,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _context = context;
         }
-
+        //gehe
         [BindProperty]
         public InputModel Input { get; set; }
 
