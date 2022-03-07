@@ -338,9 +338,6 @@ namespace WebApplicationExamTest.Migrations
                     b.Property<string>("StudentAnswer")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 

@@ -8,9 +8,9 @@
 
 <h1>ViewStudents</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -33,10 +33,10 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-               
+          @*     
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-              
+              *@
                <a style="color: #337ab7" onclick="Redirect1('@item.Id')">View</a>
             </td>
         </tr>

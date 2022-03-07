@@ -127,7 +127,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                 }
 
                 _logger.LogInformation("User logged in.");
-                return LocalRedirect("/Subject/Index");
+            
 
             }
             return Page();

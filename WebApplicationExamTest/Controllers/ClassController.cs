@@ -58,12 +58,14 @@ namespace WebApplicationExamTest.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title")] Class @class, string Data)
-        {
-            return View();
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Title")] Class @class)
+        //{
+        //    _context.Add(@class);
+        //    await _context.SaveChangesAsync();
+        //    return View();
+        //}
 
         // GET: Class/Details/5
         public async Task<IActionResult> Details(int? id)

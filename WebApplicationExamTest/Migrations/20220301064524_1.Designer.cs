@@ -10,8 +10,8 @@ using WebApplicationExamTest.Data;
 namespace WebApplicationExamTest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220223211509_new")]
-    partial class @new
+    [Migration("20220301064524_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -338,9 +338,6 @@ namespace WebApplicationExamTest.Migrations
                         .HasColumnType("real");
 
                     b.Property<string>("StudentAnswer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SubjectId")

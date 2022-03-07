@@ -35,9 +35,18 @@ namespace WebApplicationExamTest.Controllers
         public async Task<IActionResult> ViewAnswer(int? SetSubjectId)
         {
             //string cSessionStrP = Session["cSessionStrP"] as string;
-            var studentId = TempData["StudenId"].ToString();
-            var x = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).ToListAsync();
-            return View(x);
+            try
+            {
+                var studentId = TempData["StudenId"].ToString();
+                var x = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).ToListAsync();
+                return View(x);
+            }
+            catch(Exception ex)
+            {
+                List<Answer> list = new List<Answer>();     
+                return View(list);
+            }
+
         }
 
         // GET: Subject/Details/5
