@@ -10,8 +10,8 @@ using WebApplicationExamTest.Data;
 namespace WebApplicationExamTest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220301064524_1")]
-    partial class _1
+    [Migration("20220318144627_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -212,6 +212,9 @@ namespace WebApplicationExamTest.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("Mark")
                         .HasColumnType("real");
 
@@ -223,12 +226,6 @@ namespace WebApplicationExamTest.Migrations
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Test")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -325,6 +322,36 @@ namespace WebApplicationExamTest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Class");
+                });
+
+            modelBuilder.Entity("WebApplicationExamTest.Models.CorrectedExam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Corrected")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("Mark")
+                        .HasColumnType("real");
+
+                    b.Property<string>("StudentAnswer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CorrectedExam");
                 });
 
             modelBuilder.Entity("WebApplicationExamTest.Models.Exam", b =>

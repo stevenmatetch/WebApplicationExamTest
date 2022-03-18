@@ -53,5 +53,6 @@ namespace WebApplicationExamTest.Data
         public DbSet<WebApplicationExamTest.Models.Class> Class { get; set; }
         public DbSet<WebApplicationExamTest.Models.Answer> Answer { get; set; }
         public DbSet<WebApplicationExamTest.Models.StudentClass> StudentClass { get; set; }
+        public DbSet<WebApplicationExamTest.Models.CorrectedExam> CorrectedExam { get; set; }
     }
 }

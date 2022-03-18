@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplicationExamTest.Migrations
 {
-    public partial class _1 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,10 +17,9 @@ namespace WebApplicationExamTest.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: true),
-                    Test = table.Column<string>(nullable: true),
                     StudentAnswer = table.Column<string>(nullable: true),
                     Mark = table.Column<float>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
                     SubjectId = table.Column<int>(nullable: false),
                     StudentId = table.Column<string>(nullable: true)
                 },
@@ -71,6 +70,25 @@ namespace WebApplicationExamTest.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Class", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CorrectedExam",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentAnswer = table.Column<string>(nullable: true),
+                    Mark = table.Column<float>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    SubjectId = table.Column<int>(nullable: false),
+                    StudentId = table.Column<string>(nullable: true),
+                    Corrected = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CorrectedExam", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -333,6 +351,10 @@ namespace WebApplicationExamTest.Migrations
 
             migrationBuilder.DropTable(
                 name: "Class",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "CorrectedExam",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

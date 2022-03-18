@@ -75,8 +75,7 @@ namespace WebApplicationExamTest.Controllers
                 return NotFound();
             }
 
-            var @class = await _context.Class
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var @class = await _context.Class.FirstOrDefaultAsync(m => m.Id == id);
             if (@class == null)
             {
                 return NotFound();

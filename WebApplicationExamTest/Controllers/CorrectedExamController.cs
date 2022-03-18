@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,56 +10,22 @@ using WebApplicationExamTest.Models;
 
 namespace WebApplicationExamTest.Controllers
 {
-    public class ExamController : Controller
+    public class CorrectedExamController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-      
-      
 
-        public ExamController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public CorrectedExamController(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        // GET: Exam
+        // GET: CorrectedExam
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Exam.ToListAsync());
-        }
-        public async Task<IActionResult> ViewExam(int SetId)
-        {
-            TempData["SubjectId"] = SetId;
-            var exam = await _context.Exam.FirstOrDefaultAsync(exam => exam.SubjectId == SetId);
-            return View(exam);
+            return View(await _context.CorrectedExam.ToListAsync());
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ViewExam([Bind("Answer,StudentAnswer")] Exam exam)
-        {
-            if (ModelState.IsValid)
-            {
-                  int SubjectId = Convert.ToInt32(TempData["SubjectId"]);
-                  var user = await _userManager.GetUserAsync(User);
-                  Answer answer = new Answer();
-                  answer.StudentId = user.Id;
-                  answer.StudentAnswer = exam.StudentAnswer;
-                  answer.SubjectId = SubjectId;
-                  //var user = await _userManager.GetUserId(User);
-                  //exam.StudentId = 
-                  _context.Answer.Add(answer);
-                  await _context.SaveChangesAsync();
-                  return RedirectToAction(nameof(Index));
-            }
-            return View(exam);
-           
-        }
-
-
-
-        // GET: Exam/Details/5
+        // GET: CorrectedExam/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -68,44 +33,39 @@ namespace WebApplicationExamTest.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exam
+            var correctedExam = await _context.CorrectedExam
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (exam == null)
+            if (correctedExam == null)
             {
                 return NotFound();
             }
 
-            return View(exam);
+            return View(correctedExam);
         }
 
-        // GET: Exam/Create
-        public IActionResult Create(int SetId)
+        // GET: CorrectedExam/Create
+        public IActionResult Create()
         {
-            TempData["SetId"] = SetId;
             return View();
         }
 
-        // POST: Exam/Create
+        // POST: CorrectedExam/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Test")] Exam exam)
+        public async Task<IActionResult> Create([Bind("Id,Title,StudentAnswer,Mark,SubjectId,StudentId")] CorrectedExam correctedExam)
         {
             if (ModelState.IsValid)
             {
-               int SetId = (int)TempData["SetId"];
-               //Subject subject = new Subject();
-               exam.SubjectId = SetId;
-
-                _context.Add(exam);
+                _context.Add(correctedExam);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(exam);
+            return View(correctedExam);
         }
 
-        // GET: Exam/Edit/5
+        // GET: CorrectedExam/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -113,22 +73,22 @@ namespace WebApplicationExamTest.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exam.FindAsync(id);
-            if (exam == null)
+            var correctedExam = await _context.CorrectedExam.FindAsync(id);
+            if (correctedExam == null)
             {
                 return NotFound();
             }
-            return View(exam);
+            return View(correctedExam);
         }
 
-        // POST: Exam/Edit/5
+        // POST: CorrectedExam/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] Exam exam)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,StudentAnswer,Mark,SubjectId,StudentId")] CorrectedExam correctedExam)
         {
-            if (id != exam.Id)
+            if (id != correctedExam.Id)
             {
                 return NotFound();
             }
@@ -137,12 +97,12 @@ namespace WebApplicationExamTest.Controllers
             {
                 try
                 {
-                    _context.Update(exam);
+                    _context.Update(correctedExam);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExamExists(exam.Id))
+                    if (!CorrectedExamExists(correctedExam.Id))
                     {
                         return NotFound();
                     }
@@ -153,10 +113,10 @@ namespace WebApplicationExamTest.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(exam);
+            return View(correctedExam);
         }
 
-        // GET: Exam/Delete/5
+        // GET: CorrectedExam/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -164,30 +124,30 @@ namespace WebApplicationExamTest.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exam
+            var correctedExam = await _context.CorrectedExam
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (exam == null)
+            if (correctedExam == null)
             {
                 return NotFound();
             }
 
-            return View(exam);
+            return View(correctedExam);
         }
 
-        // POST: Exam/Delete/5
+        // POST: CorrectedExam/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var exam = await _context.Exam.FindAsync(id);
-            _context.Exam.Remove(exam);
+            var correctedExam = await _context.CorrectedExam.FindAsync(id);
+            _context.CorrectedExam.Remove(correctedExam);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ExamExists(int id)
+        private bool CorrectedExamExists(int id)
         {
-            return _context.Exam.Any(e => e.Id == id);
+            return _context.CorrectedExam.Any(e => e.Id == id);
         }
     }
 }

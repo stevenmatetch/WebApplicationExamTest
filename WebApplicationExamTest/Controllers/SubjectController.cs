@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,14 @@ namespace WebApplicationExamTest.Controllers
     public class SubjectController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public SubjectController(ApplicationDbContext context)
+
+
+        public SubjectController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Subject
@@ -24,6 +29,7 @@ namespace WebApplicationExamTest.Controllers
         {
             return View(await _context.Subject.ToListAsync());
         }
+
         public async Task<IActionResult> Index1(string SetId)
         {
             //Session["cSessionStrP"] = SetId;
@@ -34,6 +40,7 @@ namespace WebApplicationExamTest.Controllers
 
         public async Task<IActionResult> ViewAnswer(int? SetSubjectId)
         {
+            TempData["SetSubjectId"] = SetSubjectId;
             //string cSessionStrP = Session["cSessionStrP"] as string;
             try
             {
@@ -48,6 +55,59 @@ namespace WebApplicationExamTest.Controllers
             }
 
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ViewAnswer([Bind("StudentAnswer,Comment,Mark,StudentId,SubjectId")] Answer answer, string StudentId, string StudentAnswer)
+        {
+          
+            if (ModelState.IsValid)
+            {             
+                CorrectedExam correctedExam = new CorrectedExam();
+                correctedExam.StudentId = StudentId;
+                correctedExam.StudentAnswer = answer.StudentAnswer;
+                correctedExam.SubjectId = answer.SubjectId;
+                correctedExam.StudentAnswer = StudentAnswer;
+                correctedExam.Mark = answer.Mark;
+                correctedExam.Comment = answer.Comment;
+                _context.CorrectedExam.Add(correctedExam);
+                await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+            }
+            return Redirect("/Class");
+
+        }
+
+
+        public async Task<IActionResult> ViewCorrectedExam(int? SetSubjectId)
+        {
+            TempData["SetSubjectId"] = SetSubjectId;
+            //string cSessionStrP = Session["cSessionStrP"] as string;
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                var x = await _context.CorrectedExam.Where(correctedExam => correctedExam.SubjectId == SetSubjectId && correctedExam.StudentId == user.Id).ToListAsync();
+                return View(x);
+            }
+            catch (Exception ex)
+            {
+                List<Answer> list = new List<Answer>();
+                return View(list);
+            }
+
+        }
+
+        public async Task<IActionResult> ViewAllCorrectedExam()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var x = await _context.CorrectedExam.Where(correctedExam =>correctedExam.StudentId == user.Id).ToListAsync();
+
+            return View(x);
+      
+        }
+
 
         // GET: Subject/Details/5
         public async Task<IActionResult> Details(int? id)

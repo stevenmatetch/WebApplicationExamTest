@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplicationExamTest.Models.Answer>
+﻿@model IEnumerable<WebApplicationExamTest.Models.CorrectedExam>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,9 +14,6 @@
         <tr>
             @*<th>
                 @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Test)
             </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.StudentAnswer)
@@ -38,9 +35,6 @@
         <tr>
             @*<td>
                 @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Test)
             </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.StudentAnswer)
@@ -63,8 +57,3 @@
 }
     </tbody>
 </table>
-
-
-
-
-

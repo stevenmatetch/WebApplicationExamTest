@@ -5,7 +5,9 @@
 }
 
 <h1>Index</h1>
+  <input type="submit" value="See all results" class="btn btn-primary" />
 
+    <a style="color: #337ab7" onclick="RedirectToAllResults()">See all results</a> |
 
 <table class="table">
     <thead>
@@ -32,7 +34,7 @@
                @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>|*@
-                @* <a style="color: #337ab7" onclick="Redirect(@item.Id)">Add exam</a> |*@
+                 <a style="color: #337ab7" onclick="Redirect(@item.Id)">See Result</a> |
                      <a style="color: #337ab7" onclick="Redirect1(@item.Id)">See exam</a>
             @*       <a  asp-route-id="@item.Id">Add exam</a>*@
             </td>
@@ -44,11 +46,15 @@
 
 
       function Redirect(id) {
-            window.location.href = '/Exam/Create?SetId=' + id;
+            window.location.href = '/Subject/ViewCorrectedExam?SetSubjectId=' + id;
 
         }
 
                function Redirect1(id) {
             window.location.href = '/Exam/ViewExam?SetId=' + id;
+        }
+
+               function RedirectToAllResults(id) {
+            window.location.href = 'Subject/ViewAllCorrectedExam';
         }
 </script>
