@@ -45,7 +45,7 @@ namespace WebApplicationExamTest.Controllers
             try
             {
                 var studentId = TempData["StudenId"].ToString();
-                var x = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).ToListAsync();
+                var x = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).FirstOrDefaultAsync();
                 return View(x);
             }
             catch(Exception ex)

@@ -10,8 +10,8 @@ using WebApplicationExamTest.Data;
 namespace WebApplicationExamTest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220318144627_Init")]
-    partial class Init
+    [Migration("20220318204443_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -333,9 +333,6 @@ namespace WebApplicationExamTest.Migrations
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Corrected")
-                        .HasColumnType("bit");
 
                     b.Property<float>("Mark")
                         .HasColumnType("real");

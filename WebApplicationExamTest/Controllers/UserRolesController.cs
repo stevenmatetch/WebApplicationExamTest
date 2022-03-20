@@ -62,7 +62,7 @@ namespace WebApplicationExamTest.Controllers
 
             var model = new List<ManageUserRolesViewModel>();
 
-            foreach (var role in _roleManager.Roles)
+            foreach (var role in _roleManager.Roles.ToList())
             {
                 var userRolesViewModel = new ManageUserRolesViewModel
                 {

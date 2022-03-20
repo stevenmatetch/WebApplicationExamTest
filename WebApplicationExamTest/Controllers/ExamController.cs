@@ -52,7 +52,7 @@ namespace WebApplicationExamTest.Controllers
                   //exam.StudentId = 
                   _context.Answer.Add(answer);
                   await _context.SaveChangesAsync();
-                  return RedirectToAction(nameof(Index));
+                return RedirectToAction("Home", "Index"); 
             }
             return View(exam);
            

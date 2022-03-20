@@ -13,7 +13,7 @@
 
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
-            <hr />
+            @*<hr />*@
             <div asp-validation-summary="All" class="text-danger"></div>
 
             <div class="form-group">
@@ -46,10 +46,13 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+             <div style="margin-top:40px" class="form-group">
+                        <button style="width:350px" type="submit" class="btn btn-primary"><strong>Register</strong></button>
+                    </div>
+           @* <button type="submit" class="btn btn-primary">Register</button>*@
         </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+   @* <div class="col-md-6 col-md-offset-2">
         <section>
             <h4>Use another service to register.</h4>
             <hr />
@@ -78,7 +81,7 @@
                 }
             }
         </section>
-    </div>
+    </div>*@
 </div>
 
 @section Scripts {

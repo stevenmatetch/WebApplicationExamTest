@@ -15,6 +15,7 @@ using WebApplicationExamTest.Models;
 using System.Net.Mail;
 using WebApplicationExamTest.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 {
@@ -113,7 +114,20 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    
+                    //Creating the security context 
+
+                    //var Claims = new List<Claim>
+                    //{
+                    //    new Claim(ClaimTypes.Name, "Name"),
+                    //    new Claim(ClaimTypes.Email, "Email")
+                    //};
+
+                    //var identity = new ClaimsIdentity(Claims, "MyCookieAuth");
+
+                    //ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
+
+                    //await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+
                     var isInRole = await _userManager.IsInRoleAsync(list[0], "Student");
 
                     if (isInRole == true)

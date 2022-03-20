@@ -28,6 +28,12 @@ namespace WebApplicationExamTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
+            //{
+            //    options.Cookie.Name = "MyCookieAuth";
+            //    options.LoginPath = "/Identity/Account/Login";
+            //});
+
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -50,7 +56,9 @@ namespace WebApplicationExamTest
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -64,6 +72,7 @@ namespace WebApplicationExamTest
 
             app.UseEndpoints(endpoints =>
             {
+              
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
