@@ -43,8 +43,12 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+
         [TempData]
-        public string ErrorMessage { get; set; }
+        public string StatusMessage { get; set; }
+
+        //[TempData]
+        //public string ErrorMessage { get; set; }
 
         public class InputModel
         {
@@ -75,10 +79,10 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
-            }
+            //if (!string.IsNullOrEmpty(ErrorMessage))
+            //{
+            //    ModelState.AddModelError(string.Empty, ErrorMessage);
+            //}
 
             returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -139,8 +143,9 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                         return LocalRedirect("/Class/Index");
                     }
                 }
+                StatusMessage= "Error";
 
-                _logger.LogInformation("User logged in.");
+                //_logger.LogInformation("User logged in.");
             
 
             }

@@ -13,6 +13,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApplicationExamTest.Data;
 using WebApplicationExamTest.Models;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApplicationExamTest
 {
@@ -64,6 +67,14 @@ namespace WebApplicationExamTest
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                              Path.Combine(Directory.GetCurrentDirectory(), @"Images")),
+                RequestPath = new PathString("/app-images")
+            });
+
 
             app.UseRouting();
 

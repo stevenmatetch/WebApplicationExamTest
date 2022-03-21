@@ -19,9 +19,6 @@ using WebApplicationExamTest.Data;
 using WebApplicationExamTest.Models;
 
 
-
-
-
 namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -47,6 +44,10 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
             _context = context;
         }
         //gehe
+
+
+        [TempData]
+        public string StatusMessage { get; set; }
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -96,6 +97,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                 myClasses.Add(item);
             }
 
+
             foreach (var item in myClasses)
             {
                 newItem = new SelectListItem();
@@ -105,6 +107,14 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
             }
 
             ViewData["Classes"] = classes;
+
+            if (ViewData["Classes"] == null)
+            {
+                newItem = new SelectListItem();
+                newItem.Text = "";
+                newItem.Value = "";
+                classes.Add(newItem);
+            }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -125,11 +135,17 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                     LastName = Input.LastName
                 };
 
+                SelectListItem newItem;
+                List<SelectListItem> classes = new List<SelectListItem>();
+                List<Class> myClasses = new List<Class>();
+                var DatabaseClasses = _context.Class;
+
                 //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    //_logger.LogInformation("User created a new account with password.");
                     await _userManager.AddToRoleAsync(user, "Student");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -142,28 +158,74 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                   
+
                     StudentClass studentclass = new StudentClass();
                     studentclass.StudentId = user.Id;
                     studentclass.ClassId = Convert.ToInt32(Input.Class);
                     _context.StudentClass.Add(studentclass);
                     await _context.SaveChangesAsync();
+                    StatusMessage = "You created an account";
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    foreach (Class item in DatabaseClasses)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        myClasses.Add(item);
                     }
-                    else
+
+                    foreach (var item in myClasses)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        newItem = new SelectListItem();
+                        newItem.Text = item.Title;
+                        newItem.Value = item.Id.ToString();
+                        classes.Add(newItem);
                     }
+
+                    ViewData["Classes"] = classes;
+                    return Page();
+                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    //{
+                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    //}
+                    //else
+                    //{
+                    //    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //    return LocalRedirect(returnUrl);
+                    //}
                 }
+
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    StatusMessage = "Error: " + error.Description;
+                    //ModelState.AddModelError(string.Empty, error.Description);
                 }
+
+
+
+                //SelectListItem newItem;
+                //List<SelectListItem> classes = new List<SelectListItem>();
+                //List<Class> myClasses = new List<Class>();
+                //var DatabaseClasses = _context.Class;
+
+                foreach (Class item in DatabaseClasses)
+                {
+                    myClasses.Add(item);
+                }
+
+                foreach (var item in myClasses)
+                {
+                    newItem = new SelectListItem();
+                    newItem.Text = item.Title;
+                    newItem.Value = item.Id.ToString();
+                    classes.Add(newItem);
+                }
+
+                ViewData["Classes"] = classes;
+                return Page();
+
+
+
+                //return Page();
             }
+            //StatusMessage = "Error";
 
             // If we got this far, something failed, redisplay form
             return Page();

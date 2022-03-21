@@ -4,20 +4,20 @@
     ViewData["Title"] = "Index1";
 }
 
-@*<h1>Index1</h1>*@
+<h1><strong>Subjects</strong> </h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
-    <thead>
+    @*<thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th></th>
         </tr>
-    </thead>
+    </thead>*@
     <tbody>
 @foreach (var item in Model) {
         <tr>
@@ -25,13 +25,13 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                <input type="hidden" asp-for="@item.Id" />
+               @* <input type="hidden" asp-for="@item.Id" />
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
 
-                 <a style="color: #337ab7" onclick="Redirect(@item.Id)">Add exam</a> |
-              <a style="color: #337ab7" onclick="Redirect1(@item.Id)">See exam</a>
+                 <a style="color: white; font-weight:bold" class="btn btn-success" onclick="Redirect(@item.Id)">Add exam</a> 
+              <a  style="color: white; font-weight:bold" class="btn btn-primary" onclick="Redirect1(@item.Id)">See exam</a>
             </td>
         </tr>
 }

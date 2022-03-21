@@ -8,8 +8,12 @@
 <h1 style="font-weight:bold; text-align:center">@ViewData["Title"]</h1>
 <div class="divLogin">
 
+   @* <partial name="_ErrorMessage" for="ErrorMessage" />*@
+   
     <div class="row" style="justify-content:center; display:flex">
+       
         <div class="col-md-4">
+              <partial name="_StatusMessage" model="Model.StatusMessage" />
             <section>
                 <form id="account" method="post">
                     @* <h4>Use a local account to log in.</h4>*@
@@ -17,7 +21,7 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" />
+                        <input asp-for="Input.Email" class="form-control" style="width:280px" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -34,7 +38,7 @@
                         </div>
                     </div>*@
                     <div style="margin-top:40px" class="form-group">
-                        <button style="width:333px" type="submit" class="btn btn-primary"><strong>Log in</strong></button>
+                        <button style="width:280px" type="submit" class="btn btn-primary"><strong>Log in</strong></button>
                     </div>
                     @*  <div class="form-group">
                         <p>
@@ -83,9 +87,17 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+
 <style>
 
+    .form-control{
+        width:280px;
+    }
 
+    *{
+    font-family: 'Poppins', sans-serif;
+     }
 
     @@media (min-width: 1191px) {
         .divLogin {

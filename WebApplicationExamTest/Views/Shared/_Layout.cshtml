@@ -3,13 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  @*  <title>@ViewData["Title"] - WebApplicationExamTest</title>*@
+    @*  <title>@ViewData["Title"] - WebApplicationExamTest</title>*@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
-
-
-      <link href="~/Style.css" rel="stylesheet" />
+    <link href="~/Style.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -29,10 +26,10 @@
                     <ul class="navbar-nav flex-grow-1">
                         @*<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
+                            </li>
+                            <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
+                            </li>*@
                     </ul>
                 </div>
             </div>
@@ -44,14 +41,43 @@
         </main>
     </div>
 
-  @*  <footer class="border-top footer text-muted">
+    @*  <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - WebApplicationExamTest - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2022 - WebApplicationExamTest - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>*@
+        </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
+
+<style>
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .form-control {
+        width: 280px;
+    }
+
+    .table td {
+        border: hidden;
+    }
+
+    .table th {
+        border: hidden;
+    }
+
+    .table tr {
+        border: hidden;
+    }
+
+    
+    .a label {
+        cursor: pointer;
+    }
+</style>

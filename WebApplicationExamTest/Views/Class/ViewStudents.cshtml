@@ -6,7 +6,7 @@
 
 
 
-<h1>ViewStudents</h1>
+<h1><strong>Students</strong></h1>
 
 @*<p>
     <a asp-action="Create">Create New</a>
@@ -17,7 +17,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-              <th>
+              <th style="visibility:hidden">
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th></th>
@@ -29,7 +29,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-           <td>
+               <td>
+          @*     
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+              *@
+               <a style="color: white; font-weight:bold" class="btn btn-primary" onclick="Redirect1('@item.Id')">View</a>
+            </td>
+           <td style="visibility:hidden">>
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
@@ -37,7 +44,7 @@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
               *@
-               <a style="color: #337ab7" onclick="Redirect1('@item.Id')">View</a>
+             @*  <a style="color: #337ab7" onclick="Redirect1('@item.Id')">View</a>*@
             </td>
         </tr>
 }
@@ -50,16 +57,17 @@
 
 <script>
 
-    
       function Redirect1(id) {
      
             window.location.href = '/Subject/Index1?SetId=' + id;
       }
 
-   
-   
-
 </script>
 
 }
 
+@*<style>
+     * {
+        font-family: 'Poppins', sans-serif;
+    }
+</style>*@

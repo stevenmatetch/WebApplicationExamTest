@@ -16,8 +16,6 @@ namespace WebApplicationExamTest.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-
-
         public SubjectController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -103,7 +101,7 @@ namespace WebApplicationExamTest.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            var x = await _context.CorrectedExam.Where(correctedExam =>correctedExam.StudentId == user.Id).ToListAsync();
+            var x = await _context.CorrectedExam.Where(correctedExam => correctedExam.StudentId == user.Id).ToListAsync();
 
             return View(x);
       
@@ -145,11 +143,8 @@ namespace WebApplicationExamTest.Controllers
             {
                 //Exam exam = new Exam();
                 //exam.SubjectId = subject.Id;
-                //List<Exam> exams = new List<Exam>();
-                
-                //exams.Where(x => x.Id == subject.Id).ToList();
-                
-
+                //List<Exam> exams = new List<Exam>();                
+                //exams.Where(x => x.Id == subject.Id).ToList();              
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
