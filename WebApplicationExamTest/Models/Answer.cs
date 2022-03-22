@@ -18,7 +18,7 @@
         /// <summary>
         /// variable
         /// </summary>
-        //public bool Corrected { get; set; }
+        //public bool finish{ get; set; }
 
     }
 }

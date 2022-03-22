@@ -1,44 +1,36 @@
 ﻿@model IEnumerable<WebApplicationExamTest.Models.Answer>
 @*
-@{
+    @{
     ViewData["Title"] = "ViewAnswer";
-}*@
+    }*@
 
-<h1>ViewAnswer</h1>
+<h1><strong>Answer</strong></h1>
 
- <form asp-action="ViewAnswer">
-<div class="row">
-    
- 
-     <div class="col-md-9" style="max-width:800px">
-      @foreach (var item in Model) 
-{
-        @item.StudentAnswer
-  
-         @Html.Hidden("StudentAnswer",item.StudentAnswer)
-         @Html.Hidden("StudentId",item.StudentId)
-            @Html.Hidden("SubjectId",item.SubjectId)
-         @* <p style="display:none">@item.StudentId</p>  *@
-}
+<form asp-action="ViewAnswer">
+    <div class="row">
+        <div class="col-md-9" style="max-width:800px">
+            @foreach (var item in Model)
+            {
+                @item.StudentAnswer
 
-  </div>
+                @Html.Hidden("StudentAnswer",item.StudentAnswer)
+                @Html.Hidden("StudentId",item.StudentId)
+                @Html.Hidden("SubjectId",item.SubjectId)
+                @* <p style="display:none">@item.StudentId</p>  *@
+            }
+        </div>
 
 
-  <div class="col-md-3">
-    
-                 @Html.Editor("Mark", new { htmlAttributes = new { @class = "form-control", placeholder = "20 max" } })
-      @*<input  class="form-control" />*@
+        <div class="col-md-3">
+            @Html.Editor("Mark", new { htmlAttributes = new {@class = "form-control", placeholder = "20 max"}})
+            @*<input  class="form-control" />*@
+            @*  <input  class="form-control"style="height:800px;width:255px" />*@
+            @Html.Editor("Comment", new { htmlAttributes = new {@class = "form-control",@style ="height:800px;width:255px"}})
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
 
-     @*  <input  class="form-control"style="height:800px;width:255px" />*@
-        @Html.Editor("Comment", new { htmlAttributes = new { @class = "form-control",@style ="height:800px;width:255px"  } })
+    </div>
+</form>
 
-          <input type="submit" value="Create" class="btn btn-primary" />
- 
-       
-  </div>
 
-</div>
-        </form>
-   
-   
- 
+

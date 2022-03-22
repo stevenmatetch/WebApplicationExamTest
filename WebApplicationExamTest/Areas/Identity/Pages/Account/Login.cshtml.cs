@@ -16,6 +16,7 @@ using System.Net.Mail;
 using WebApplicationExamTest.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 {
@@ -25,16 +26,20 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _contextAccessor;
 
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager,  ILogger<LoginModel> logger,UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public LoginModel(SignInManager<ApplicationUser> signInManager,  ILogger<LoginModel> logger,UserManager<ApplicationUser> userManager, ApplicationDbContext context, IHttpContextAccessor contextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _context = context;
+            _contextAccessor = contextAccessor;
         }
+
+        public const string SessionId = "_Id";
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -97,27 +102,38 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync()
         {
             //returnUrl = returnUrl ?? Url.Content("~/");
-
+            string id = "";
 
             if (ModelState.IsValid)
             {
-                List<ApplicationUser> list = new List<ApplicationUser>();             
+                List<ApplicationUser> list = new List<ApplicationUser>();
+              
                 var userName = Input.Email;
+
                 if (IsValidEmail(Input.Email))
                 {
                     var user = await _userManager.FindByEmailAsync(Input.Email);
                     if (user != null)
                     {
+                      
                         userName = user.UserName;
+                        id = user.Id;
                         list.Add(user);
-
 
                     }
                 }
 
                 var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+               
                 if (result.Succeeded)
                 {
+                    //var user = await _userManager.GetUserAsync(User);
+
+                    HttpContext.Session.SetString(SessionId, id);
+
+
+                    //var thisId = HttpContext.Session.GetString(SessionId);
+               
                     //Creating the security context 
 
                     //var Claims = new List<Claim>
@@ -136,6 +152,10 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
                     if (isInRole == true)
                     {
+                        
+
+                        string SessionId = _contextAccessor.HttpContext.Session.Id;
+
                         return LocalRedirect("/Subject/Index");
                     }
                     else

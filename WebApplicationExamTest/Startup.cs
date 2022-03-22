@@ -37,6 +37,16 @@ namespace WebApplicationExamTest
             //    options.LoginPath = "/Identity/Account/Login";
             //});
 
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -67,18 +77,19 @@ namespace WebApplicationExamTest
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
                               Path.Combine(Directory.GetCurrentDirectory(), @"Images")),
                 RequestPath = new PathString("/app-images")
             });
-
+            //app.UseSession();
 
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -39,6 +40,9 @@ namespace WebApplicationExamTest.Controllers
         public async Task<IActionResult> ViewAnswer(int? SetSubjectId)
         {
             TempData["SetSubjectId"] = SetSubjectId;
+
+       
+
             //string cSessionStrP = Session["cSessionStrP"] as string;
             try
             {
@@ -80,6 +84,7 @@ namespace WebApplicationExamTest.Controllers
 
         public async Task<IActionResult> ViewCorrectedExam(int? SetSubjectId)
         {
+            var thisId = HttpContext.Session.GetString("SessionId");
             TempData["SetSubjectId"] = SetSubjectId;
             //string cSessionStrP = Session["cSessionStrP"] as string;
             try

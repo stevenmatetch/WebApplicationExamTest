@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -88,6 +89,8 @@ namespace WebApplicationExamTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Test,StudentAnswer,Mark,SubjectId,StudentId")] Answer answer)
         {
+        
+
             if (id != answer.Id)
             {
                 return NotFound();
