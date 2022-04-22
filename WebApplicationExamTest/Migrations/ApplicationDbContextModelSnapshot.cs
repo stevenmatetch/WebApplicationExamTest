@@ -332,6 +332,9 @@ namespace WebApplicationExamTest.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Done")
+                        .HasColumnType("bit");
+
                     b.Property<float>("Mark")
                         .HasColumnType("real");
 

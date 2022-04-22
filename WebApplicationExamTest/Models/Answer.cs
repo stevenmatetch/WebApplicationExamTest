@@ -18,7 +18,7 @@
         /// <summary>
         /// variable
         /// </summary>
-        //public bool finish{ get; set; }
+        //public bool Done{ get; set; }
 
     }
 }

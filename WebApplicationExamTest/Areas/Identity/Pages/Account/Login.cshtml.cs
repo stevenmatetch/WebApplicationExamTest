@@ -114,12 +114,10 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                 {
                     var user = await _userManager.FindByEmailAsync(Input.Email);
                     if (user != null)
-                    {
-                      
+                    {                      
                         userName = user.UserName;
                         id = user.Id;
                         list.Add(user);
-
                     }
                 }
 

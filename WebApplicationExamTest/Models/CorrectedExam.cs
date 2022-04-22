@@ -13,6 +13,6 @@
         public int SubjectId { get; set; }
         public string StudentId { get; set; }
 
-        //public bool Corrected { get; set; }
+        public bool Done { get; set; }
     }
 }
