@@ -129,7 +129,6 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
                     HttpContext.Session.SetString(SessionId, id);
 
-
                     //var thisId = HttpContext.Session.GetString(SessionId);
                
                     //Creating the security context 
@@ -149,9 +148,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                     var isInRole = await _userManager.IsInRoleAsync(list[0], "Student");
 
                     if (isInRole == true)
-                    {
-                        
-
+                    {                      
                         string SessionId = _contextAccessor.HttpContext.Session.Id;
 
                         return LocalRedirect("/Subject/Index");
@@ -161,12 +158,11 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                         return LocalRedirect("/Class/Index");
                     }
                 }
+
                 StatusMessage= "Error";
-
-                //_logger.LogInformation("User logged in.");
-            
-
+                //_logger.LogInformation("User logged in.");           
             }
+
             return Page();
         }
 

@@ -34,8 +34,8 @@ namespace WebApplicationExamTest.Controllers
                 return NotFound();
             }
 
-            var answer = await _context.Answer
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var answer = await _context.Answer.FirstOrDefaultAsync(m => m.Id == id);
+          
             if (answer == null)
             {
                 return NotFound();
@@ -60,6 +60,7 @@ namespace WebApplicationExamTest.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(answer);
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -88,9 +89,7 @@ namespace WebApplicationExamTest.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Test,StudentAnswer,Mark,SubjectId,StudentId")] Answer answer)
-        {
-        
-
+        {        
             if (id != answer.Id)
             {
                 return NotFound();
@@ -127,8 +126,7 @@ namespace WebApplicationExamTest.Controllers
                 return NotFound();
             }
 
-            var answer = await _context.Answer
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var answer = await _context.Answer.FirstOrDefaultAsync(m => m.Id == id);
             if (answer == null)
             {
                 return NotFound();

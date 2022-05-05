@@ -50,12 +50,12 @@ namespace WebApplicationExamTest.Controllers
                   answer.SubjectId = SubjectId;
                   //var user = await _userManager.GetUserId(User);
                   //exam.StudentId = 
+                  //answer.Done = true;
                   _context.Answer.Add(answer);
                   await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Home"); 
+                  return RedirectToAction("Index", "Home"); 
             }
-            return View(exam);
-           
+            return View(exam);          
         }
 
 

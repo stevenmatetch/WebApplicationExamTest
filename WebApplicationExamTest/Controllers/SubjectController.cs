@@ -43,13 +43,38 @@ namespace WebApplicationExamTest.Controllers
             try
             {
                 var studentId = TempData["StudenId"].ToString();
-                var x = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).ToListAsync();
-                return View(x);
+                var studentAnswer = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).ToListAsync();
+
+                Answer ans = new Answer();
+                ans.StudentId = studentAnswer[0].StudentId;
+                ans.StudentAnswer = studentAnswer[0].StudentAnswer;
+                ans.SubjectId = studentAnswer[0].SubjectId;
+                ans.StudentAnswer = studentAnswer[0].StudentAnswer;
+                ans.Mark = studentAnswer[0].Mark;
+                ans.Done = studentAnswer[0].Done;
+
+
+
+                //studentAnswer[0].StudentAnswer
+                //studentAnswer[0].SubjectId
+                //studentAnswer[0].StudentAnswer
+                //studentAnswer[0].Mark
+                //studentAnswer[0].Done
+                //CorrectedExam correctedExam = new CorrectedExam();
+                //correctedExam.StudentId = StudentId;
+                //correctedExam.StudentAnswer = answer.StudentAnswer;
+                //correctedExam.SubjectId = answer.SubjectId;
+                //correctedExam.StudentAnswer = StudentAnswer;
+                //correctedExam.Mark = answer.Mark;
+                //correctedExam.Comment = ;
+                //correctedExam.Done = true;
+                return View(ans);
             }
             catch (Exception)
             {
-                List<Answer> list = new List<Answer>();
-                return View(list);
+                Answer ans = new Answer();
+                //List<Answer> list = new List<Answer>();
+                return View(ans);
             }
         }
 
@@ -69,6 +94,10 @@ namespace WebApplicationExamTest.Controllers
                 correctedExam.Done = true;
                 _context.CorrectedExam.Add(correctedExam);
                 await _context.SaveChangesAsync();
+                //
+                answer.Done = true;
+                _context.Answer.Add(answer);
+                await _context.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
             }
             return Redirect("/Class");
@@ -76,15 +105,18 @@ namespace WebApplicationExamTest.Controllers
 
         public async Task<IActionResult> ViewCorrectedExam(int? SetSubjectId)
         {
-            string thisId = HttpContext.Session.Id;
+            // log in Session
+            string SessionId = HttpContext.Session.Id;
+            //string ii = HttpContext.Session.GetString("SessionId");
             //var thisId = HttpContext.Session.Id;
             TempData["SetSubjectId"] = SetSubjectId;
             //string cSessionStrP = Session["cSessionStrP"] as string;
-           
+
             try
             {
-                //var user = await _userManager.GetUserAsync(User);
-                var x = await _context.CorrectedExam.Where(correctedExam => correctedExam.SubjectId == SetSubjectId && correctedExam.StudentId == thisId).ToListAsync();
+                // spara Idet i session vid inloggning
+                var user = await _userManager.GetUserAsync(User);
+                var x = await _context.CorrectedExam.Where(correctedExam => correctedExam.SubjectId == SetSubjectId && correctedExam.StudentId == user.Id).ToListAsync();
                 return View(x);
             }
             catch (Exception)
@@ -100,7 +132,6 @@ namespace WebApplicationExamTest.Controllers
             var user = await _userManager.GetUserAsync(User);
             var x = await _context.CorrectedExam.Where(correctedExam => correctedExam.StudentId == user.Id).ToListAsync();
             return View(x);
-
         }
 
 
@@ -113,6 +144,7 @@ namespace WebApplicationExamTest.Controllers
             }
 
             var subject = await _context.Subject.FirstOrDefaultAsync(m => m.Id == id);
+
             if (subject == null)
             {
                 return NotFound();
@@ -206,8 +238,7 @@ namespace WebApplicationExamTest.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subject
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var subject = await _context.Subject.FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
                 return NotFound();

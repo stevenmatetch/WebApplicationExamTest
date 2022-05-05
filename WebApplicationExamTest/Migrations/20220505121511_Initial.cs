@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplicationExamTest.Migrations
 {
-    public partial class init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,7 +21,8 @@ namespace WebApplicationExamTest.Migrations
                     Mark = table.Column<float>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     SubjectId = table.Column<int>(nullable: false),
-                    StudentId = table.Column<string>(nullable: true)
+                    StudentId = table.Column<string>(nullable: true),
+                    Done = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
