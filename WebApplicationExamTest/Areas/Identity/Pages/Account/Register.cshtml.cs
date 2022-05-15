@@ -68,6 +68,8 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
             [Display(Name = "Last Name")]
             public string Class { get; set; }
 
+            public string Role { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -115,6 +117,22 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                 newItem.Value = "";
                 classes.Add(newItem);
             }
+            //
+            List<string> myRoles = new List<string>();
+            myRoles.Add("Student");
+            myRoles.Add("Teacher");
+            List<SelectListItem> Roles = new List<SelectListItem>();
+
+            for (int i = 0; i < myRoles.Count; i++)
+            {
+                newItem = new SelectListItem();
+                newItem.Text = myRoles[i];
+                newItem.Value = myRoles[i];
+                Roles.Add(newItem);
+
+            }            
+
+            ViewData["Roles"] = Roles;
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -146,7 +164,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     //_logger.LogInformation("User created a new account with password.");
-                    await _userManager.AddToRoleAsync(user, "Student");
+                    await _userManager.AddToRoleAsync(user, Input.Role);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

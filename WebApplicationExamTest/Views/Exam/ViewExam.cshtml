@@ -27,10 +27,13 @@
                 <input asp-for="StudentAnswer" style="height:800px;width;800px" class="form-control" />
                 <span asp-validation-for="StudentAnswer" class="text-danger"></span>
             </div>
-         
-            <div class="form-group">
-                <input type="submit" value="Submit test" class="btn btn-primary" />
-            </div>
+            @*@if (Model.myHidden == true)
+            {*@
+                <div class="form-group">
+                    <input style="display:none" type="submit" value="Submit test" class="btn btn-primary" />
+                </div>
+            @*}*@
+
         </form>
     </div>
 </div>

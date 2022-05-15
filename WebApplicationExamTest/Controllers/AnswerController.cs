@@ -76,6 +76,7 @@ namespace WebApplicationExamTest.Controllers
             }
 
             var answer = await _context.Answer.FindAsync(id);
+
             if (answer == null)
             {
                 return NotFound();

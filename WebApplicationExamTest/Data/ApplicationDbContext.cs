@@ -47,12 +47,11 @@ namespace WebApplicationExamTest.Data
                 entity.ToTable("UserTokens");
             });
         }
-        public DbSet<WebApplicationExamTest.Models.Exam> Exam { get; set; }
-      
+        public DbSet<WebApplicationExamTest.Models.Exam> Exam { get; set; }     
         public DbSet<WebApplicationExamTest.Models.Subject> Subject { get; set; }
         public DbSet<WebApplicationExamTest.Models.Class> Class { get; set; }
         public DbSet<WebApplicationExamTest.Models.Answer> Answer { get; set; }
         public DbSet<WebApplicationExamTest.Models.StudentClass> StudentClass { get; set; }
-        public DbSet<WebApplicationExamTest.Models.CorrectedExam> CorrectedExam { get; set; }
+ 
     }
 }

@@ -10,8 +10,8 @@ using WebApplicationExamTest.Data;
 namespace WebApplicationExamTest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220505121511_Initial")]
-    partial class Initial
+    [Migration("20220511064848_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

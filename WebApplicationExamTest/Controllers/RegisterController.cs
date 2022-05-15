@@ -50,7 +50,6 @@ namespace WebApplicationExamTest.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 MailAddress address = new MailAddress(Input.Email);
                 string userName = address.User;
                 ApplicationUser user = new ApplicationUser();

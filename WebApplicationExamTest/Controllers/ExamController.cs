@@ -16,8 +16,6 @@ namespace WebApplicationExamTest.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
       
-      
-
         public ExamController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -33,6 +31,14 @@ namespace WebApplicationExamTest.Controllers
         {
             TempData["SubjectId"] = SetId;
             var exam = await _context.Exam.FirstOrDefaultAsync(exam => exam.SubjectId == SetId);
+
+            //var user = await _userManager.GetUserAsync(User);
+            //bool value = _context.Answer.Any(e => e.StudentId == user.Id && e.SubjectId == SetId);
+
+            //if(value == true)
+            //{
+            //    //exam.myHidden = true;
+            //}
             return View(exam);
         }
 
@@ -53,6 +59,8 @@ namespace WebApplicationExamTest.Controllers
                   //answer.Done = true;
                   _context.Answer.Add(answer);
                   await _context.SaveChangesAsync();
+                // logout
+                // om jag loggar in igen för att skriva samma prov
                   return RedirectToAction("Index", "Home"); 
             }
             return View(exam);          
@@ -68,8 +76,7 @@ namespace WebApplicationExamTest.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exam
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var exam = await _context.Exam.FirstOrDefaultAsync(m => m.Id == id);
             if (exam == null)
             {
                 return NotFound();
@@ -94,10 +101,9 @@ namespace WebApplicationExamTest.Controllers
         {
             if (ModelState.IsValid)
             {
-               int SetId = (int)TempData["SetId"];
+                int SetId = (int)TempData["SetId"];
                //Subject subject = new Subject();
-               exam.SubjectId = SetId;
-
+                exam.SubjectId = SetId;
                 _context.Add(exam);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

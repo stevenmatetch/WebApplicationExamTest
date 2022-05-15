@@ -10,10 +10,11 @@
         public string Test { get; set; }
 
         public string StudentAnswer { get; set; }
-        public float Mark { get; set; }
+        //public float Mark { get; set; }
 
         public int SubjectId { get; set; }
         //public string StudentId { get; set; }
+        //public bool myHidden { get; set; }
 
     }
 }

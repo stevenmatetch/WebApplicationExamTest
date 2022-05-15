@@ -74,6 +74,7 @@ namespace WebApplicationExamTest.Controllers
             }
 
             var studentClass = await _context.StudentClass.FindAsync(id);
+
             if (studentClass == null)
             {
                 return NotFound();

@@ -11,256 +11,298 @@ using WebApplicationExamTest.Models;
 
 namespace WebApplicationExamTest.Controllers
 {
-    public class SubjectController : Controller
-    {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+	public class SubjectController : Controller
+	{
+		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-        public SubjectController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
-        {
-            _context = context;
-            _userManager = userManager;
-        }
+		public SubjectController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+		{
+			_context = context;
+			_userManager = userManager;
+		}
 
-        // GET: Subject
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Subject.ToListAsync());
-        }
+		// GET: Subject
+		public async Task<IActionResult> Index()
+		{
+			return View(await _context.Subject.ToListAsync());
+		}
 
-        public async Task<IActionResult> Index1(string SetId)
-        {
-            //Session["cSessionStrP"] = SetId;
-            TempData["StudenId"] = SetId;
-            return View(await _context.Subject.ToListAsync());
-            //heu
-        }
+		public async Task<IActionResult> Index1(string SetId)
+		{
+			//Session["cSessionStrP"] = SetId;
+			TempData["StudenId"] = SetId;
+			return View(await _context.Subject.ToListAsync());
+			//heu
+		}
 
-        public async Task<IActionResult> ViewAnswer(int? SetSubjectId)
-        {
-            TempData["SetSubjectId"] = SetSubjectId;
-            //string cSessionStrP = Session["cSessionStrP"] as string;
-            try
-            {
-                var studentId = TempData["StudenId"].ToString();
-                var studentAnswer = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).ToListAsync();
+		public async Task<IActionResult> ViewAnswer(int? SetSubjectId)
+		{
+			TempData["SetSubjectId"] = SetSubjectId;
+			//string cSessionStrP = Session["cSessionStrP"] as string;
+			try
+			{
+				var studentId = TempData["StudenId"].ToString();
+				var studentAnswer = await _context.Answer.Where(answer => answer.SubjectId == SetSubjectId && answer.StudentId == studentId).ToListAsync();
 
-                Answer ans = new Answer();
-                ans.StudentId = studentAnswer[0].StudentId;
-                ans.StudentAnswer = studentAnswer[0].StudentAnswer;
-                ans.SubjectId = studentAnswer[0].SubjectId;
-                ans.StudentAnswer = studentAnswer[0].StudentAnswer;
-                ans.Mark = studentAnswer[0].Mark;
-                ans.Done = studentAnswer[0].Done;
+				Answer ans = new Answer();
+				ans.StudentId = studentAnswer[0].StudentId;
+				ans.StudentAnswer = studentAnswer[0].StudentAnswer;
+				ans.SubjectId = studentAnswer[0].SubjectId;
+				ans.StudentAnswer = studentAnswer[0].StudentAnswer;
+				ans.Mark = studentAnswer[0].Mark;
+				ans.Done = studentAnswer[0].Done;
+				TempData["AnswerId"] = studentAnswer[0].Id;
 
-
-
-                //studentAnswer[0].StudentAnswer
-                //studentAnswer[0].SubjectId
-                //studentAnswer[0].StudentAnswer
-                //studentAnswer[0].Mark
-                //studentAnswer[0].Done
-                //CorrectedExam correctedExam = new CorrectedExam();
-                //correctedExam.StudentId = StudentId;
-                //correctedExam.StudentAnswer = answer.StudentAnswer;
-                //correctedExam.SubjectId = answer.SubjectId;
-                //correctedExam.StudentAnswer = StudentAnswer;
-                //correctedExam.Mark = answer.Mark;
-                //correctedExam.Comment = ;
-                //correctedExam.Done = true;
-                return View(ans);
-            }
-            catch (Exception)
-            {
-                Answer ans = new Answer();
-                //List<Answer> list = new List<Answer>();
-                return View(ans);
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ViewAnswer([Bind("StudentAnswer,Comment,Mark,StudentId,SubjectId")] Answer answer, string StudentId, string StudentAnswer)
-        {
-            if (ModelState.IsValid)
-            {
-                CorrectedExam correctedExam = new CorrectedExam();
-                correctedExam.StudentId = StudentId;
-                correctedExam.StudentAnswer = answer.StudentAnswer;
-                correctedExam.SubjectId = answer.SubjectId;
-                correctedExam.StudentAnswer = StudentAnswer;
-                correctedExam.Mark = answer.Mark;
-                correctedExam.Comment = answer.Comment;
-                correctedExam.Done = true;
-                _context.CorrectedExam.Add(correctedExam);
-                await _context.SaveChangesAsync();
-                //
-                answer.Done = true;
-                _context.Answer.Add(answer);
-                await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
-            }
-            return Redirect("/Class");
-        }
-
-        public async Task<IActionResult> ViewCorrectedExam(int? SetSubjectId)
-        {
-            // log in Session
-            string SessionId = HttpContext.Session.Id;
-            //string ii = HttpContext.Session.GetString("SessionId");
-            //var thisId = HttpContext.Session.Id;
-            TempData["SetSubjectId"] = SetSubjectId;
-            //string cSessionStrP = Session["cSessionStrP"] as string;
-
-            try
-            {
-                // spara Idet i session vid inloggning
-                var user = await _userManager.GetUserAsync(User);
-                var x = await _context.CorrectedExam.Where(correctedExam => correctedExam.SubjectId == SetSubjectId && correctedExam.StudentId == user.Id).ToListAsync();
-                return View(x);
-            }
-            catch (Exception)
-            {
-                List<Answer> list = new List<Answer>();
-                return View(list);
-            }
-
-        }
-
-        public async Task<IActionResult> ViewAllCorrectedExam()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var x = await _context.CorrectedExam.Where(correctedExam => correctedExam.StudentId == user.Id).ToListAsync();
-            return View(x);
-        }
+				//studentAnswer[0].StudentAnswer
+				//studentAnswer[0].SubjectId
+				//studentAnswer[0].StudentAnswer
+				//studentAnswer[0].Mark
+				//studentAnswer[0].Done
+				//CorrectedExam correctedExam = new CorrectedExam();
+				//correctedExam.StudentId = StudentId;
+				//correctedExam.StudentAnswer = answer.StudentAnswer;
+				//correctedExam.SubjectId = answer.SubjectId;
+				//correctedExam.StudentAnswer = StudentAnswer;
+				//correctedExam.Mark = answer.Mark;
+				//correctedExam.Comment = ;
+				//correctedExam.Done = true;
+				return View(ans);
+			}
+			catch (Exception)
+			{
+				Answer ans = new Answer();
+				//List<Answer> list = new List<Answer>();
+				return View(ans);
+			}
+		}
 
 
-        // GET: Subject/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ViewAnswer([Bind("StudentAnswer,Comment,Mark,StudentId,SubjectId")] Answer answer)
+		{
+			string AnswerId = TempData["AnswerId"].ToString();
+			answer.Id = Convert.ToInt32(AnswerId);
+		   
+			if (Convert.ToInt32(AnswerId) != answer.Id)
+			{
+				return NotFound();
+			}
 
-            var subject = await _context.Subject.FirstOrDefaultAsync(m => m.Id == id);
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					answer.Done = true;
+					_context.Update(answer);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!AnswerExists(answer.Id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			return View(answer);
+		}
 
-            if (subject == null)
-            {
-                return NotFound();
-            }
+		private bool AnswerExists(int id)
+		{
+			return _context.Answer.Any(e => e.Id == id);
+		}
 
-            return View(subject);
-        }
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> ViewAnswer([Bind("StudentAnswer,Comment,Mark,StudentId,SubjectId")] Answer answer, string StudentId, string StudentAnswer)
+		//{
+		//    if (ModelState.IsValid)
+		//    {
+		//        CorrectedExam correctedExam = new CorrectedExam();
+		//        correctedExam.StudentId = StudentId;
+		//        correctedExam.StudentAnswer = answer.StudentAnswer;
+		//        correctedExam.SubjectId = answer.SubjectId;
+		//        correctedExam.StudentAnswer = StudentAnswer;
+		//        correctedExam.Mark = answer.Mark;
+		//        correctedExam.Comment = answer.Comment;
+		//        correctedExam.Done = true;
+		//        _context.CorrectedExam.Add(correctedExam);
+		//        await _context.SaveChangesAsync();
+		//        //
+		//        answer.Done = true;
+		//        _context.Answer.Add(answer);
+		//        await _context.SaveChangesAsync();
+		//        //return RedirectToAction(nameof(Index));
+		//    }
+		//    return Redirect("/Class");
+		//}
 
-        // GET: Subject/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+		public async Task<IActionResult> ViewCorrectedExam(int? SetSubjectId)
+		{
+			// log in Session
+			string SessionId = HttpContext.Session.Id;
+			//string ii = HttpContext.Session.GetString("SessionId");
+			//var thisId = HttpContext.Session.Id;
+			TempData["SetSubjectId"] = SetSubjectId;
+			//string cSessionStrP = Session["cSessionStrP"] as string;
 
-        // POST: Subject/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,SubejectId")] Subject subject)
-        {
-            if (ModelState.IsValid)
-            {
-                //Exam exam = new Exam();
-                //exam.SubjectId = subject.Id;
-                //List<Exam> exams = new List<Exam>();                
-                //exams.Where(x => x.Id == subject.Id).ToList();              
-                _context.Add(subject);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(subject);
-        }
+			try
+			{
+				// spara Idet i session vid inloggning
+				var user = await _userManager.GetUserAsync(User);
+				var x = await _context.Answer.Where(correctedExam => correctedExam.SubjectId == SetSubjectId && correctedExam.StudentId == user.Id).ToListAsync();
+				return View(x);
+			}
+			catch (Exception)
+			{
+				List<Answer> list = new List<Answer>();
+				return View(list);
+			}
 
-        // GET: Subject/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		}
 
-            var subject = await _context.Subject.FindAsync(id);
-            if (subject == null)
-            {
-                return NotFound();
-            }
-            return View(subject);
-        }
+		public async Task<IActionResult> ViewAllCorrectedExam()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			var x = await _context.Answer.Where(correctedExam => correctedExam.StudentId == user.Id).ToListAsync();
+			return View(x);
+		}
 
-        // POST: Subject/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Mark")] Subject subject)
-        {
-            if (id != subject.Id)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(subject);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SubjectExists(subject.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(subject);
-        }
+		// GET: Subject/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-        // GET: Subject/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+			var subject = await _context.Subject.FirstOrDefaultAsync(m => m.Id == id);
 
-            var subject = await _context.Subject.FirstOrDefaultAsync(m => m.Id == id);
-            if (subject == null)
-            {
-                return NotFound();
-            }
+			if (subject == null)
+			{
+				return NotFound();
+			}
 
-            return View(subject);
-        }
+			return View(subject);
+		}
 
-        // POST: Subject/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var subject = await _context.Subject.FindAsync(id);
-            _context.Subject.Remove(subject);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+		// GET: Subject/Create
+		public IActionResult Create()
+		{
+			return View();
+		}
 
-        private bool SubjectExists(int id)
-        {
-            return _context.Subject.Any(e => e.Id == id);
-        }
-    }
+		// POST: Subject/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("Id,Title,SubejectId")] Subject subject)
+		{
+			if (ModelState.IsValid)
+			{
+				//Exam exam = new Exam();
+				//exam.SubjectId = subject.Id;
+				//List<Exam> exams = new List<Exam>();                
+				//exams.Where(x => x.Id == subject.Id).ToList();              
+				_context.Add(subject);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+			return View(subject);
+		}
+
+		// GET: Subject/Edit/5
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var subject = await _context.Subject.FindAsync(id);
+		  
+			if (subject == null)
+			{
+				return NotFound();
+			}
+			return View(subject);
+		}
+
+		// POST: Subject/Edit/5
+		// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Mark")] Subject subject)
+		{
+			if (id != subject.Id)
+			{
+				return NotFound();
+			}
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					_context.Update(subject);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!SubjectExists(subject.Id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			return View(subject);
+		}
+
+		// GET: Subject/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var subject = await _context.Subject.FirstOrDefaultAsync(m => m.Id == id);
+			if (subject == null)
+			{
+				return NotFound();
+			}
+
+			return View(subject);
+		}
+
+		// POST: Subject/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var subject = await _context.Subject.FindAsync(id);
+			_context.Subject.Remove(subject);
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
+
+		private bool SubjectExists(int id)
+		{
+			return _context.Subject.Any(e => e.Id == id);
+		}
+	}
 }
