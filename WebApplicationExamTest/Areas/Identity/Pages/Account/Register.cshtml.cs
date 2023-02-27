@@ -198,7 +198,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                     }
 
                     ViewData["Classes"] = classes;
-                    return Page();
+                    return Redirect("/Identity/Account/Login");
                     //if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     //{
                     //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
@@ -237,7 +237,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                 }
 
                 ViewData["Classes"] = classes;
-                return Page();
+                return Redirect("/Identity/Account/Login");
 
 
 
@@ -246,7 +246,7 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
             //StatusMessage = "Error";
 
             // If we got this far, something failed, redisplay form
-            return Page();
+            return Redirect("/Identity/Account/Login");
         }
     }
 }

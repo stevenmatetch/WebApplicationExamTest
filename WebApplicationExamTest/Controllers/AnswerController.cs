@@ -21,6 +21,7 @@ namespace WebApplicationExamTest.Controllers
         }
 
         // GET: Answer
+       
         public async Task<IActionResult> Index()
         {
             return View(await _context.Answer.ToListAsync());
@@ -59,8 +60,7 @@ namespace WebApplicationExamTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(answer);
-                
+                _context.Add(answer);               
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -81,6 +81,7 @@ namespace WebApplicationExamTest.Controllers
             {
                 return NotFound();
             }
+
             return View(answer);
         }
 
@@ -128,6 +129,7 @@ namespace WebApplicationExamTest.Controllers
             }
 
             var answer = await _context.Answer.FirstOrDefaultAsync(m => m.Id == id);
+            
             if (answer == null)
             {
                 return NotFound();

@@ -1,4 +1,5 @@
-﻿namespace WebApplicationExamTest.Models
+﻿
+namespace WebApplicationExamTest.Models
 {
     public class Subject
     {

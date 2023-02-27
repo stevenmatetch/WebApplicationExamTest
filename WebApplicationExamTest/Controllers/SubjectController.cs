@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,8 +23,9 @@ namespace WebApplicationExamTest.Controllers
 			_userManager = userManager;
 		}
 
-		// GET: Subject
-		public async Task<IActionResult> Index()
+        // GET: Subject
+        [Authorize]
+        public async Task<IActionResult> Index()
 		{
 			return View(await _context.Subject.ToListAsync());
 		}

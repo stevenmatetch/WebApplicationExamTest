@@ -106,22 +106,25 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                List<ApplicationUser> list = new List<ApplicationUser>();
+               // List<ApplicationUser> list = new List<ApplicationUser>();
+                ApplicationUser applicationUser = new ApplicationUser();
               
-                var userName = Input.Email;
+                string userEmail = Input.Email;
 
                 if (IsValidEmail(Input.Email))
                 {
                     var user = await _userManager.FindByEmailAsync(Input.Email);
                     if (user != null)
                     {                      
-                        userName = user.UserName;
+                        userEmail = user.UserName;
                         id = user.Id;
-                        list.Add(user);
+                        applicationUser.UserName = user.UserName;
+                        applicationUser.Id = user.Id;
+                      
                     }
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(userEmail, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                
                 if (result.Succeeded)
                 {
@@ -129,25 +132,11 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
 
                     HttpContext.Session.SetString(SessionId, id);
 
-                    //var thisId = HttpContext.Session.GetString(SessionId);
-               
-                    //Creating the security context 
 
-                    //var Claims = new List<Claim>
-                    //{
-                    //    new Claim(ClaimTypes.Name, "Name"),
-                    //    new Claim(ClaimTypes.Email, "Email")
-                    //};
-
-                    //var identity = new ClaimsIdentity(Claims, "MyCookieAuth");
-
-                    //ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
-
-                    //await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
-
-                    var isInRole = await _userManager.IsInRoleAsync(list[0], "Student");
-
-                    if (isInRole == true)
+                    var isStudent = await _userManager.IsInRoleAsync(applicationUser, "Student");
+                    var isAdmin = await _userManager.IsInRoleAsync(applicationUser, "Administrator");
+                   
+                    if (isStudent)
                     {                      
                         string SessionId = _contextAccessor.HttpContext.Session.Id;
 
@@ -155,7 +144,16 @@ namespace WebApplicationExamTest.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        return LocalRedirect("/Class/Index");
+                        
+                        if (isAdmin)
+                        {
+                            return LocalRedirect("/Admin/Home");
+                        }
+                        else
+                        {
+                            return LocalRedirect("/Class/Index");
+                        }
+                      
                     }
                 }
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplicationExamTest.Controllers
+namespace WebApplicationExamTest.Models
 {
     public class Teacher
     {

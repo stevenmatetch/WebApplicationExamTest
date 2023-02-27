@@ -28,9 +28,14 @@ namespace WebApplicationExamTest
 
         public IConfiguration Configuration { get; }
 
+ 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+          
+
             //services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
             //{
             //    options.Cookie.Name = "MyCookieAuth";
@@ -60,7 +65,7 @@ namespace WebApplicationExamTest
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +96,8 @@ namespace WebApplicationExamTest
             app.UseAuthentication();
             app.UseSession();
             app.UseAuthorization();
+
+            SeedData.Seed(userManager, roleManager);
 
             app.UseEndpoints(endpoints =>
             {

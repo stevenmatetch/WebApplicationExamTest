@@ -20,7 +20,7 @@ namespace WebApplicationExamTest.Controllers
             _userManager = userManager;
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -39,13 +39,13 @@ namespace WebApplicationExamTest.Controllers
             return View(userRolesViewModel);
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         private async Task<List<string>> GetUserRoles(ApplicationUser user)
         {
             return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Manage(string userId)
         {
             
@@ -82,7 +82,7 @@ namespace WebApplicationExamTest.Controllers
             return View(model);
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Manage(List<ManageUserRolesViewModel> model, string userId)
         {
