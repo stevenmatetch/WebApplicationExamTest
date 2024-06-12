@@ -1,0 +1,18 @@
+@page "/logout"
+@using Microsoft.AspNetCore.Authorization
+@using webAssemblyExam.Services
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [AllowAnonymous]
+
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthService.Logout();
+        NavigationManager.NavigateTo("/");
+    }
+
+}
